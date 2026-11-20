@@ -1,0 +1,43 @@
+source:
+  root: "D:/docs"
+  include: ["*.pdf", "*.docx", "*.csv"]
+
+manifest:
+  path: "data/manifest.db"
+
+extraction:
+  ocr:
+    enabled: true
+    lang: "tha+eng"
+    min_text_chars_per_page: 50
+  workers: 4
+
+chunking:
+  min_tokens: 600
+  max_tokens: 1000
+  overlap: 100
+  csv_row_group_size: 50
+
+embedding:
+  profile: "local"
+  # ห้ามเปลี่ยนเป็น true จนกว่าจะได้รับอนุมัติให้ส่งข้อมูลภายในออกนอกเครื่อง (ข้อ 8 ของ spec)
+  allow_external: false
+  local:
+    model: "intfloat/multilingual-e5-small"
+    backend: "onnx"
+    quantize: true
+  fast:
+    model: "text-embedding-3-small"
+  batch_size: 64
+
+vectorstore:
+  backend: "chroma"
+  path: "data/chroma"
+  collection: "internal_kb"
+
+retrieval:
+  top_k: 5
+
+logging:
+  level: "INFO"
+  path: "logs/ingest.log"

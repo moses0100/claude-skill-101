@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kb-ingest"
+version = "0.1.0"
+description = "Large-file ingestion pipeline (PDF/DOCX/CSV) into ChromaDB for RAG"
+requires-python = ">=3.11"
+dependencies = [
+  "PyYAML>=6.0",
+  "pydantic>=2.0",
+]
+
+[project.optional-dependencies]
+pdf = ["PyMuPDF>=1.24", "pytesseract>=0.3", "pillow>=10"]
+docx = ["python-docx>=1.1"]
+csv = ["pandas>=2.0"]
+embed-local = ["fastembed>=0.5"]
+embed-api = ["openai>=1.0"]
+store = ["chromadb>=0.5"]
+api = ["fastapi>=0.110", "uvicorn>=0.29"]
+ui = ["streamlit>=1.30"]
+dev = ["pytest>=8", "ruff>=0.4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
